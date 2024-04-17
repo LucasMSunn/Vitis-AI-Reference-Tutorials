@@ -111,8 +111,8 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path):
                 cv2.putText(im, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
         # # Save generated image with detections
-         output_path = 'prediction.jpg'
-         cv2.imwrite(output_path, im)
+        output_path = 'prediction.jpg'
+        cv2.imwrite(output_path, im)
 
         # Display image
         #cv2.imshow("Prediction", im)

@@ -51,11 +51,18 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path):
     '''init input image to input buffer '''
     imageRun = inputData[0]
     imageRun[0,...] = image.reshape(inputTensors[0].dims[1],inputTensors[0].dims[2],inputTensors[0].dims[3])
-
+    time_start = time.time()
     '''Execute Async'''
     job_id = dpu_runner_tfYolo.execute_async(inputData,outputData)
     dpu_runner_tfYolo.wait(job_id)
-
+    time_end = time.time()
+    timetotal = time_end - time_start
+    total_frames = 1 
+    fps = float(total_frames / timetotal)
+    print(
+        "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
+        % (fps, total_frames, timetotal)
+    )
     '''Transpose Output for consistency'''
     outputData[0] = np.transpose(outputData[0], (0,3,1,2))
     outputData[1] = np.transpose(outputData[1], (0,3,1,2))
@@ -111,13 +118,13 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path):
                 cv2.putText(im, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
         # # Save generated image with detections
-        output_path = 'prediction.jpg'
-        cv2.imwrite(output_path, im)
+        #output_path = 'prediction.jpg'
+        #cv2.imwrite(output_path, im)
 
         # Display image
-        #cv2.imshow("Prediction", im)
-        #cv2.waitKey(0)
-        #cv2.destroyAllWindows()
+        cv2.imshow("Prediction", im)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     
 

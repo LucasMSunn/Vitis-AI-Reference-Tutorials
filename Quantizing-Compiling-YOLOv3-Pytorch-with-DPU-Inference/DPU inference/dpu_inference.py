@@ -86,7 +86,7 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path):
     batch_detections = non_max_suppression(output_con, config["yolo"]["classes"],
                                                    conf_thres=config["confidence_threshold"],
                                                    nms_thres=0.45)
-    print(batch_detections)
+    #print(batch_detections)
 
 
     '''Plot prediction with bounding box'''
@@ -123,8 +123,8 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path):
 
         # Display image
         cv2.imshow("Prediction", im)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        #cv2.waitKey(0)
+        
 
     
 
@@ -180,31 +180,34 @@ def main(argv):
     config = importlib.import_module(params_path[:-3]).TRAINING_PARAMS
 
     # Preprocessing 
-    #image_path = argv[2]
-    ret, image = cap.read()
-    #image = cv2.imread(image_path, cv2.IMREAD_COLOR)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    image = cv2.resize(image, (config["img_w"], config["img_h"]),
+    image_path = argv[2]
+    while(cv2.waitKey(0)):
+        ret, image = cap.read()
+        #image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.resize(image, (config["img_w"], config["img_h"]),
                                 interpolation=cv2.INTER_LINEAR)
-    image = image.astype(np.float32)
-    image /= 255.0
+        image = image.astype(np.float32)
+        image /= 255.0
 
-    # Measure time 
-    time_start = time.time()
+        # Measure time 
+        time_start = time.time()
 
-    """Assigns the runYolo function with corresponding arguments"""
-    runYolo(dpu_runners, image, config, image_path)
+        """Assigns the runYolo function with corresponding arguments"""
+        runYolo(dpu_runners, image, config, image_path)
+    
+
+        time_end = time.time()
+        timetotal = time_end - time_start
+        total_frames = 1 
+        fps = float(total_frames / timetotal)
+        print(
+            "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
+            % (fps, total_frames, timetotal)
+        )
     del dpu_runners
-
-    time_end = time.time()
-    timetotal = time_end - time_start
-    total_frames = 1 
-    fps = float(total_frames / timetotal)
-    print(
-        "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
-        % (fps, total_frames, timetotal)
-    )
     cap.release()
+    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

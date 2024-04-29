@@ -187,7 +187,7 @@ def main(argv):
         else:    
             ret, image = cap.read()
             if not ret:
-                print("Fehler: Bildaufnahme fehlgeschlagen.")
+                print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
                 return
         
@@ -218,7 +218,7 @@ def main(argv):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("usage : python3 dpu_inference.py <xmodel_file> <image_path>")
+    if len(sys.argv) != 4:
+        print("usage : python3 dpu_inference.py <xmodel_file> <image_path> <file/camera>")
     else:
         main(sys.argv)

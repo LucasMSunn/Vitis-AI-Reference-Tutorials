@@ -148,6 +148,23 @@ def get_child_subgraph_dpu(graph: "Graph") -> List["Subgraph"]:
     ]
 
 
+def capture_image(camera_index=0):
+    # Öffnen der USB-Kamera
+    cap = cv2.VideoCapture(camera_index)
+
+    # Überprüfen, ob die Kamera geöffnet wurde
+    if not cap.isOpened():
+        print("Fehler: Die Kamera konnte nicht geöffnet werden.")
+        return
+
+    # Aufnehmen eines einzelnen Bildes
+    ret, frame = cap.read()
+
+    # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
+    if not ret:
+        print("Fehler: Bildaufnahme fehlgeschlagen.")
+        return
+
 def main(argv):
     
     g = xir.Graph.deserialize(argv[1]) # Deserialize the DPU graph
@@ -163,8 +180,9 @@ def main(argv):
     config = importlib.import_module(params_path[:-3]).TRAINING_PARAMS
 
     # Preprocessing 
-    image_path = argv[2]
-    image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+    #image_path = argv[2]
+    ret, image = cap.read()
+    #image = cv2.imread(image_path, cv2.IMREAD_COLOR)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, (config["img_w"], config["img_h"]),
                                 interpolation=cv2.INTER_LINEAR)
@@ -186,6 +204,7 @@ def main(argv):
         "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
         % (fps, total_frames, timetotal)
     )
+    cap.release()
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:

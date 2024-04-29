@@ -182,8 +182,15 @@ def main(argv):
     # Preprocessing 
     image_path = argv[2]
     while(cv2.waitKey(0)):
-        ret, image = cap.read()
-        #image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+        if argv[3] == file:
+            image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+        else:    
+            ret, image = cap.read()
+            if not ret:
+                print("Fehler: Bildaufnahme fehlgeschlagen.")
+                image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+                return
+        
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (config["img_w"], config["img_h"]),
                                 interpolation=cv2.INTER_LINEAR)
@@ -200,9 +207,10 @@ def main(argv):
         time_end = time.time()
         timetotal = time_end - time_start
         total_frames = 1 
-        fps = float(total_frames / timetotal)
+        fps = float(total_frames / timetotal) #Berechnung der FPS der Inference pro Bild
+
         print(
-            "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
+            "FPS=%.2f pro Bild, time=%.6f seconds"
             % (fps, total_frames, timetotal)
         )
     del dpu_runners

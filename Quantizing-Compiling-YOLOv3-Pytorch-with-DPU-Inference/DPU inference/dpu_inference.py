@@ -127,7 +127,7 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
         #cv2.imwrite(output_path, im)
 
         # Display image
-    cv2.imshow("Prediction", im)
+    #cv2.imshow("Prediction", im)
         #cv2.waitKey(0)
         
 
@@ -165,7 +165,7 @@ def capture_image(camera_index=0):
     # Aufnehmen eines einzelnen Bildes
     ret, frame = cap.read()
     print("ich bin hier")
-    cv2.imshow('Webcam', frame)
+    
 
 
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
@@ -195,6 +195,7 @@ def main(argv):
             print("hier vor Bild")  
             ret, image = cap.read()
             store_img = image
+            cv2.imshow('Webcam', image)
             print("hier Nach Bild")  
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")

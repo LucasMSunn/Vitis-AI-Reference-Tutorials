@@ -97,6 +97,7 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
             if bed != "camera":
                 im = cv2.imread(image_path)
             else:
+                print("bin hier im Programm ")
                 im = image_path 
             unique_labels = np.unique(detections[:, -1])
             n_cls_preds = len(unique_labels)

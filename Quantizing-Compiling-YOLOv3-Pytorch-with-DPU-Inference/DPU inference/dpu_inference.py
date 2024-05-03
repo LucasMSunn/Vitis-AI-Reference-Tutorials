@@ -128,7 +128,8 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
         #cv2.imwrite(output_path, im)
 
         # Display image
-    #cv2.imshow("Prediction", im)
+
+    cv2.imshow("Prediction", im)
         #cv2.waitKey(0)
         
 

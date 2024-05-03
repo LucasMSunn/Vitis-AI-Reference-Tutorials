@@ -186,7 +186,8 @@ def main(argv):
     while(1):
         if argv[3] != "camera":
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
-        else:    
+        else:  
+            print("hier vor Bild")  
             ret, image = cap.read()
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")

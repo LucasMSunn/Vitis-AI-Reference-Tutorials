@@ -91,15 +91,15 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
 
     '''Plot prediction with bounding box'''
     classes = open(config["classes_names_path"], "r").read().split("\n")[:-1]
-
+    im = image_path
     for idx, detections in enumerate(batch_detections):
         if detections is not None:
             if bed != "camera":
-                im = cv2.imread(image_path)
+                #im = cv2.imread(image_path)
+                None
             else:
                 print("bin hier im Programm ")
             print(bed)
-            im = image_path 
             unique_labels = np.unique(detections[:, -1])
             n_cls_preds = len(unique_labels)
             bbox_colors = {int(cls_pred): (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) for cls_pred in unique_labels}
@@ -127,7 +127,7 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
         #cv2.imwrite(output_path, im)
 
         # Display image
-        cv2.imshow("Prediction", im)
+    cv2.imshow("Prediction", im)
         #cv2.waitKey(0)
         
 

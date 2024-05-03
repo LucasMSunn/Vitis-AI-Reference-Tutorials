@@ -120,7 +120,7 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
                 cv2.rectangle(im, (int(x1), int(y1)), (int(x1 + box_w), int(y1 + box_h)), color, 2)
 
                 # Add label
-                label = classes[int(cls_pred)]+ " Wahrschenlichkeit: " + "{:.2f}%".format(float64_number.item() * 100)
+                label = classes[int(cls_pred)]+ " Wahrschenlichkeit: " + "{:.2f}%".format(cls_conf.item() * 100)
                 cv2.putText(im, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
                 #print(label)
         # # Save generated image with detections

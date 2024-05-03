@@ -189,6 +189,7 @@ def main(argv):
         else:  
             print("hier vor Bild")  
             ret, image = cap.read()
+            print("hier Nach Bild")  
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
@@ -203,9 +204,10 @@ def main(argv):
         # Measure time 
         time_start = time.time()
         """Creates DPU runner, associated with the DPU subgraph."""
+        print("hier vor create")
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
 
-        print("hier")
+        print("hier vor run")
         """Assigns the runYolo function with corresponding arguments"""
         runYolo(dpu_runners, image, config, image_path)
         del dpu_runners    

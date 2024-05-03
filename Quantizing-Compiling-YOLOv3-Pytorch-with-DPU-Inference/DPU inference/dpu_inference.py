@@ -122,13 +122,12 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
                 # Add label
                 label = classes[int(cls_pred)]
                 cv2.putText(im, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-
+                print(label)
         # # Save generated image with detections
         #output_path = 'prediction.jpg'
         #cv2.imwrite(output_path, im)
 
         # Display image
-
     cv2.imshow("Prediction", im)
         #cv2.waitKey(0)
         

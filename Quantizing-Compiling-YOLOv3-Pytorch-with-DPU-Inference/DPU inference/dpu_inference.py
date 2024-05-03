@@ -176,10 +176,7 @@ def main(argv):
     subgraphs = get_child_subgraph_dpu(g) # Extract DPU subgraphs from the graph
     assert len(subgraphs) == 1  # only one DPU kernel
 
-    """Creates DPU runner, associated with the DPU subgraph."""
-    dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
-
-
+  
     # Get config
     params_path = "params.py"
     config = importlib.import_module(params_path[:-3]).TRAINING_PARAMS
@@ -204,10 +201,13 @@ def main(argv):
 
         # Measure time 
         time_start = time.time()
+        """Creates DPU runner, associated with the DPU subgraph."""
+        dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
+
 
         """Assigns the runYolo function with corresponding arguments"""
         runYolo(dpu_runners, image, config, image_path)
-    
+        del dpu_runners    
 
         time_end = time.time()
         timetotal = time_end - time_start
@@ -218,7 +218,7 @@ def main(argv):
             "FPS=%.2f pro Bild, time=%.6f seconds"
             % (fps, total_frames, timetotal)
         )
-    del dpu_runners
+
     cap.release()
     cv2.destroyAllWindows()
 

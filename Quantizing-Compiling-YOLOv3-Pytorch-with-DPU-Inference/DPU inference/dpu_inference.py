@@ -159,6 +159,8 @@ def capture_image(camera_index=0):
 
     # Aufnehmen eines einzelnen Bildes
     ret, frame = cap.read()
+    print("ich bin hier")
+    
 
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
     if not ret:

@@ -175,7 +175,7 @@ def main(argv):
     g = xir.Graph.deserialize(argv[1]) # Deserialize the DPU graph
     subgraphs = get_child_subgraph_dpu(g) # Extract DPU subgraphs from the graph
     assert len(subgraphs) == 1  # only one DPU kernel
-
+    dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
   
     # Get config
     params_path = "params.py"
@@ -205,12 +205,12 @@ def main(argv):
         time_start = time.time()
         """Creates DPU runner, associated with the DPU subgraph."""
         print("hier vor create")
-        dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
+  
 
         print("hier vor run")
         """Assigns the runYolo function with corresponding arguments"""
         runYolo(dpu_runners, image, config, image_path)
-        del dpu_runners    
+   
 
         time_end = time.time()
         timetotal = time_end - time_start
@@ -221,7 +221,7 @@ def main(argv):
             "FPS=%.2f pro Bild, time=%.6f seconds"
             % (fps, total_frames, timetotal)
         )
-
+    del dpu_runners 
     cap.release()
     cv2.destroyAllWindows()
 

@@ -192,7 +192,7 @@ def main(argv):
         else:  
             #print("hier vor Bild")  
             ret, image = cap.read()
-            resized_frame = cv2.resize(image, (640, 480))
+            resized_frame = cv2.resize(image, (1280, 720))
             store_img = image
             #print("hier Nach Bild")  
             if not ret:

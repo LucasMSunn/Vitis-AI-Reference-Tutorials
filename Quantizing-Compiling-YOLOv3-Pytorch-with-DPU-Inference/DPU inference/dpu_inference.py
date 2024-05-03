@@ -165,7 +165,7 @@ def capture_image(camera_index=0):
 
     # Aufnehmen eines einzelnen Bildes
     ret, frame = cap.read()  
-
+    cv2.imshow("Prediction", frame)
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
     if not ret:
         print("Fehler: Bildaufnahme fehlgeschlagen.")

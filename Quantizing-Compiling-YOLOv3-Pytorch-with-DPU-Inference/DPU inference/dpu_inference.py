@@ -160,6 +160,7 @@ def capture_image(camera_index=0):
     # Aufnehmen eines einzelnen Bildes
     ret, frame = cap.read()
     print("ich bin hier")
+    cv2.imshow('Webcam', frame)
 
 
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde

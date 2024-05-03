@@ -182,7 +182,7 @@ def main(argv):
     # Preprocessing 
     image_path = argv[2]
     while(cv2.waitKey(0)):
-        if argv[3] != camera:
+        if argv[3] != "camera":
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         else:    
             ret, image = cap.read()

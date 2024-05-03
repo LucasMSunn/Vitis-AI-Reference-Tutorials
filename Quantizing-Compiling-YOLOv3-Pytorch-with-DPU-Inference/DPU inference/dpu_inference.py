@@ -155,17 +155,19 @@ def capture_image(camera_index=0):
     # Überprüfen, ob die Kamera geöffnet wurde
     if not cap.isOpened():
         print("Fehler: Die Kamera konnte nicht geöffnet werden.")
-        return
+        return cap
 
     # Aufnehmen eines einzelnen Bildes
     ret, frame = cap.read()
     print("ich bin hier")
-    
+
 
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
     if not ret:
         print("Fehler: Bildaufnahme fehlgeschlagen.")
-        return
+        return cap
+    
+    return cap
 
 def main(argv):
     
@@ -180,7 +182,7 @@ def main(argv):
     # Get config
     params_path = "params.py"
     config = importlib.import_module(params_path[:-3]).TRAINING_PARAMS
-    capture_image()
+    cap = capture_image()
     # Preprocessing 
     image_path = argv[2]
     while(cv2.waitKey(0)):

@@ -128,7 +128,8 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
         #cv2.imwrite(output_path, im)
 
         # Display image
-    cv2.imshow("Prediction", im)
+    return im
+
         #cv2.waitKey(0)
         
 
@@ -165,7 +166,6 @@ def capture_image(camera_index=0):
 
     # Aufnehmen eines einzelnen Bildes
     ret, frame = cap.read()  
-    cv2.imshow("Prediction", frame)
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
     if not ret:
         print("Fehler: Bildaufnahme fehlgeschlagen.")
@@ -211,7 +211,10 @@ def main(argv):
   
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
         """Assigns the runYolo function with corresponding arguments"""
-        runYolo(dpu_runners, image, config, store_img, argv[3])
+        im = runYolo(dpu_runners, image, config, store_img, argv[3])
+        cv2.imshow("Prediction", im)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
         del dpu_runners 
 
         time_end = time.time()

@@ -193,7 +193,7 @@ def main(argv):
             #print("hier vor Bild")  
             ret, image = cap.read()
             resized_frame = cv2.resize(image, (640, 480))
-            store_img = resized_frame
+            store_img = image
             #print("hier Nach Bild")  
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")
@@ -212,7 +212,7 @@ def main(argv):
   
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
         """Assigns the runYolo function with corresponding arguments"""
-        im = runYolo(dpu_runners, image, config, store_img, argv[3])
+        im = runYolo(dpu_runners, resized_frame, config, store_img, argv[3])
         cv2.imshow("Prediction", im)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break

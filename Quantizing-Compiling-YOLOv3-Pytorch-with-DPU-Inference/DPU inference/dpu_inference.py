@@ -192,7 +192,8 @@ def main(argv):
         else:  
             #print("hier vor Bild")  
             ret, image = cap.read()
-            store_img = image
+            resized_frame = cv2.resize(image, (640, 480))
+            store_img = resized_frame
             #print("hier Nach Bild")  
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")

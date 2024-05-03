@@ -122,7 +122,7 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
                 # Add label
                 label = classes[int(cls_pred)]
                 cv2.putText(im, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-                print(label)
+                #print(label)
         # # Save generated image with detections
         #output_path = 'prediction.jpg'
         #cv2.imwrite(output_path, im)
@@ -222,10 +222,10 @@ def main(argv):
         total_frames = 1 
         fps = float(total_frames / timetotal) #Berechnung der FPS der Inference pro Bild
 
-        print(
-            "FPS=%.2f pro Bild, time=%.6f seconds"
-            % (fps, timetotal)
-        )
+        #print(
+        #    "FPS=%.2f pro Bild, time=%.6f seconds"
+        #    % (fps, timetotal)
+        #)
     del dpu_runners 
     cap.release()
     cv2.destroyAllWindows()

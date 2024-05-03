@@ -183,7 +183,7 @@ def main(argv):
     cap = capture_image()
     # Preprocessing 
     image_path = argv[2]
-    while(cv2.waitKey(0)):
+    while(1):
         if argv[3] != "camera":
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         else:    
@@ -204,7 +204,7 @@ def main(argv):
         """Creates DPU runner, associated with the DPU subgraph."""
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
 
-
+        print("hier")
         """Assigns the runYolo function with corresponding arguments"""
         runYolo(dpu_runners, image, config, image_path)
         del dpu_runners    

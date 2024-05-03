@@ -178,7 +178,7 @@ def main(argv):
     # Get config
     params_path = "params.py"
     config = importlib.import_module(params_path[:-3]).TRAINING_PARAMS
-
+    capture_image()
     # Preprocessing 
     image_path = argv[2]
     while(cv2.waitKey(0)):

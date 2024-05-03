@@ -12,7 +12,7 @@ import numpy as np
 
 from dpu_utils import YOLOPost, non_max_suppression
 
-def runYolo(dpu_runner_tfYolo, image, config, image_path):
+def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
     config = config
 
     inputTensors = dpu_runner_tfYolo.get_input_tensors()  #  get the model input tensor
@@ -94,7 +94,10 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path):
 
     for idx, detections in enumerate(batch_detections):
         if detections is not None:
-            im = cv2.imread(image_path)
+            if bed != "camera":
+                im = cv2.imread(image_path)
+            else:
+                im = image_path 
             unique_labels = np.unique(detections[:, -1])
             n_cls_preds = len(unique_labels)
             bbox_colors = {int(cls_pred): (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) for cls_pred in unique_labels}
@@ -189,6 +192,7 @@ def main(argv):
         else:  
             print("hier vor Bild")  
             ret, image = cap.read()
+            store_img = image
             print("hier Nach Bild")  
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")
@@ -209,7 +213,7 @@ def main(argv):
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
         print("hier vor run")
         """Assigns the runYolo function with corresponding arguments"""
-        runYolo(dpu_runners, image, config, image_path)
+        runYolo(dpu_runners, image, config, store_img, argv[3])
         del dpu_runners 
 
         time_end = time.time()

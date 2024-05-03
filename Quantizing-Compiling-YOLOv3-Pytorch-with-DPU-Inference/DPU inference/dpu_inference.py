@@ -59,10 +59,10 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
     timetotal = time_end - time_start
     total_frames = 1 
     fps = float(total_frames / timetotal)
-    print(
-        "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
-        % (fps, total_frames, timetotal)
-    )
+    #print(
+    #    "FPS=%.2f, total frames = %.2f , time=%.6f seconds"
+    #    % (fps, total_frames, timetotal)
+    #)
     '''Transpose Output for consistency'''
     outputData[0] = np.transpose(outputData[0], (0,3,1,2))
     outputData[1] = np.transpose(outputData[1], (0,3,1,2))
@@ -92,14 +92,15 @@ def runYolo(dpu_runner_tfYolo, image, config, image_path, bed):
     '''Plot prediction with bounding box'''
     classes = open(config["classes_names_path"], "r").read().split("\n")[:-1]
     im = image_path
+
     for idx, detections in enumerate(batch_detections):
         if detections is not None:
             if bed != "camera":
                 #im = cv2.imread(image_path)
                 None
             else:
-                print("bin hier im Programm ")
-            print(bed)
+            #    print("bin hier im Programm ")
+                None
             unique_labels = np.unique(detections[:, -1])
             n_cls_preds = len(unique_labels)
             bbox_colors = {int(cls_pred): (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)) for cls_pred in unique_labels}
@@ -163,10 +164,7 @@ def capture_image(camera_index=0):
         return cap
 
     # Aufnehmen eines einzelnen Bildes
-    ret, frame = cap.read()
-    print("ich bin hier")
-    
-
+    ret, frame = cap.read()  
 
     # Überprüfen, ob das Bild erfolgreich aufgenommen wurde
     if not ret:
@@ -192,11 +190,10 @@ def main(argv):
         if argv[3] != "camera":
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
         else:  
-            print("hier vor Bild")  
+            #print("hier vor Bild")  
             ret, image = cap.read()
             store_img = image
-            cv2.imshow('Webcam', image)
-            print("hier Nach Bild")  
+            #print("hier Nach Bild")  
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
@@ -211,10 +208,8 @@ def main(argv):
         # Measure time 
         time_start = time.time()
         """Creates DPU runner, associated with the DPU subgraph."""
-        print("hier vor create")
   
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
-        print("hier vor run")
         """Assigns the runYolo function with corresponding arguments"""
         runYolo(dpu_runners, image, config, store_img, argv[3])
         del dpu_runners 

@@ -224,7 +224,7 @@ def main(argv):
 
         print(
             "FPS=%.2f pro Bild, time=%.6f seconds"
-            % (fps, total_frames, timetotal)
+            % (fps, timetotal)
         )
     del dpu_runners 
     cap.release()

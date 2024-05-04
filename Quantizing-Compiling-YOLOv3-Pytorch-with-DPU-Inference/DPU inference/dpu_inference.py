@@ -189,15 +189,12 @@ def main(argv):
     while(1):
         if argv[3] != "camera":
             image = cv2.imread(image_path, cv2.IMREAD_COLOR)
-        else:  
-            #print("hier vor Bild")  
+        else:   
             ret, image = cap.read()
-            store_img = image
-            #print("hier Nach Bild")  
+            store_img = image 
             if not ret:
                 print("Fehler: Bildaufnahme fehlgeschlagen. Nutze Default Bild")
                 image = cv2.imread(image_path, cv2.IMREAD_COLOR)
-                return
         
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (config["img_w"], config["img_h"]),
@@ -212,10 +209,12 @@ def main(argv):
         dpu_runners = vart.Runner.create_runner(subgraphs[0], "run")
         """Assigns the runYolo function with corresponding arguments"""
         im = runYolo(dpu_runners, image, config, store_img, argv[3])
+        del dpu_runners 
+
         cv2.imshow("Prediction", im)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-        del dpu_runners 
+        
 
         time_end = time.time()
         timetotal = time_end - time_start
